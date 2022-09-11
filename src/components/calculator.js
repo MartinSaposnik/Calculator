@@ -1,5 +1,9 @@
+import CalculatorState from "./calculatorState";
+
 export default function Calculator(){
-    return <>
-        Hola!
-    </>
+    return <CalculatorState>
+        <div className="calculatorContainer">
+
+        </div>
+    </CalculatorState>
 }
