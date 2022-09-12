@@ -1,3 +1,4 @@
+import { cleanup } from "@testing-library/react";
 import { useContext } from "react";
 import { createContext, useState } from "react";
 
@@ -20,14 +21,20 @@ export default function CalculatorState({children}){
     const [operation, setOperation] = useState(null);
     const [currentValue, setCurentValue] = useState(0);
     const [isReset, setIsReset] = useState(true);
+    const [isDecimal, setIsDecimal] = useState(false);
 
     function handleAddNumber(value){
         if(isReset){
+            if(value === '.'){
+                setIsDecimal(true);
+            }else {
+
+            }
             setCurentValue(parseInt(value));
             setIsReset(false);
         }else{
             const newValue = currentValue.toString() + value;
-            setCurentValue(newValue);
+            setCurentValue(parseFloat(newValue));
         }
     }
 
@@ -79,11 +86,50 @@ export default function CalculatorState({children}){
         }
     }
 
+    function clean(){
+        setCurentValue(0);
+        setOperation(null);
+        setMemory(0);
+        setIsReset(true);
+    }
+
+    function deleteNum(){
+        setCurentValue(parseInt(currentValue/10))
+    }
+
+    function changeSign(){
+        setCurentValue(currentValue * -1);
+    }
+
+    function convertToFloat(){
+        if(currentValue.toString().indexOf('.') > 0){
+
+        }else{
+            handleAddNumber('.')
+        }
+    }
+
     function handleExecuteAction(action){
         switch(action){
             case '=':
                 handleGetResult();
                 break;
+
+            case 'AC':
+                clean();
+            break;
+
+            case '«':
+                deleteNum();
+            break;
+
+            case '+/-':
+                changeSign();
+            break;
+            
+            case '.':
+                convertToFloat();
+            break;
 
             default:
         }
