@@ -11,6 +11,7 @@ const AppContext = createContext({
     addNumber: (value) => {},
     addOperation: (operation) => {},
     getResult: () => {},
+    executeAction: () =>{},
 });
 
 export default function CalculatorState({children}){
@@ -32,13 +33,18 @@ export default function CalculatorState({children}){
 
     }
 
+    function handleExecuteAction(){
+
+    }
+
     return <AppContext.Provider value = {{
         memory, 
         operation, 
         currentValue, 
         addNumber: handleAddNumber,
         addOperation: handleAddOperation,
-        getResult: handleGetResult
+        getResult: handleGetResult,
+        executeAction: handleExecuteAction,
     }}>
         {children}
     </AppContext.Provider>
