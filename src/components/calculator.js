@@ -1,6 +1,7 @@
 import Button from "./button";
 import CalculatorScreen from "./calculatorScreen";
 import CalculatorState from "./calculatorState";
+import styles from './calculator.css';
 
 export default function Calculator(){
     return <CalculatorState>
