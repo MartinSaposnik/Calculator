@@ -11,7 +11,7 @@ const AppContext = createContext({
     addNumber: (value) => {},
     addOperation: (operation) => {},
     getResult: () => {},
-    executeAction: () =>{},
+    executeAction: (action) =>{},
 });
 
 export default function CalculatorState({children}){
@@ -22,19 +22,71 @@ export default function CalculatorState({children}){
     const [isReset, setIsReset] = useState(true);
 
     function handleAddNumber(value){
-
+        if(isReset){
+            setCurentValue(parseInt(value));
+            setIsReset(false);
+        }else{
+            const newValue = currentValue.toString() + value;
+            setCurentValue(newValue);
+        }
     }
 
-    function handleAddOperation(operation){
-
+    function handleAddOperation(op) {
+        if (currentValue) {
+            if (operation) {
+                //TODO: tenemos que resolver
+                handleGetResult()
+                setOperation(op);
+            } else {
+                setOperation(op);
+                setMemory(currentValue);
+                setCurentValue(0);
+                setIsReset(true);
+            }
+        }
     }
 
-    function handleGetResult(){
+    function handleGetResult() {
+        let result = 0;
+        if (currentValue && operation && memory) {
+            switch (operation) {
+                case '+':
+                    result = parseFloat(currentValue) + parseFloat(memory);
+                    break;
 
+                case '-':
+                    result = parseFloat(memory) - parseFloat(currentValue);
+                    break;
+
+                case '*':
+                    result = parseFloat(currentValue) * parseFloat(memory);
+                    break;
+
+                case '/':
+                    result = parseFloat(memory) / parseFloat(currentValue);
+                    break;
+
+                case '%':
+                    result = (parseFloat(memory) /100) * parseFloat(currentValue);
+                    break;
+
+                default:
+            }
+            setCurentValue(result);
+            setOperation(null);
+            setMemory(result);
+            setIsReset(true);
+        }
     }
 
-    function handleExecuteAction(){
+    function handleExecuteAction(action){
+        switch(action){
+            case '=':
+                handleGetResult();
+                break;
 
+            default:
+        }
     }
 
     return <AppContext.Provider value = {{
