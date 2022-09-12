@@ -7,6 +7,7 @@ const AppContext = createContext({
     memory: null,
     operation: null,
     currentValue: 0,
+    isDecimal: false,
 
     /* Methods */
     addNumber: (value) => {},
@@ -28,13 +29,21 @@ export default function CalculatorState({children}){
             if(value === '.'){
                 setIsDecimal(true);
             }else {
-
+                const point = isDecimal ? '.' : '';
+                const newValue = currentValue.toString() + point + value.toString();
+                setCurentValue(parseFloat(newValue));
+                setIsReset(false);
+                setIsDecimal(false);
             }
-            setCurentValue(parseInt(value));
-            setIsReset(false);
         }else{
-            const newValue = currentValue.toString() + value;
-            setCurentValue(parseFloat(newValue));
+            if(value === '.'){
+                setIsDecimal(true)
+            }else{
+                const point = isDecimal ? '.' : '';
+                const newValue = currentValue.toString() + point + value.toString();
+                setIsDecimal(false);
+                setCurentValue(parseFloat(newValue));
+            }
         }
     }
 
@@ -138,7 +147,8 @@ export default function CalculatorState({children}){
     return <AppContext.Provider value = {{
         memory, 
         operation, 
-        currentValue, 
+        currentValue,
+        isDecimal,
         addNumber: handleAddNumber,
         addOperation: handleAddOperation,
         getResult: handleGetResult,
