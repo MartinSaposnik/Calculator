@@ -1,3 +1,7 @@
+body{
+    background-color: #5CB8E4;
+}
+
 .calculatorContainer{
     width: 500px;
     margin: 100px auto;
@@ -18,9 +22,9 @@
 .calculatorButton{
     padding: 20px;
     font-size: 30px;
-    border: solid 1px white;
-    background-color: black;
-    color: aqua;
+    border: solid 1px #F2F2F2;
+    background-color: #181818;
+    color: #8758FF;
     cursor: pointer;
 }
 
